@@ -400,7 +400,16 @@
   function 渲染用户页(标签) {
     const C = 核();
     const 标签表 = ['收藏', '历史', '自建', '设置'];
-    const 复原 = (c) => C.全部资源.find((r) => r.名称 === c.名称) || { 名称: c.名称, 分类: c.分类, 简介: '本地条目', 星级: 0 };
+    const 复原 = (c) => {
+      const 资 = C.全部资源.find((r) => r.名称 === c.名称);
+      if (资) return 资;
+      const 文 = C.文章表.find((a) => a.标题 === c.名称);
+      if (文) {
+        return { 名称: c.名称, 分类: (文.板块 === '文学' ? '文章' : '技术文档'),
+          简介: '📄 ' + String((文.格式) || 'txt').toUpperCase() + ' 文章 · 点击遮罩预览', 星级: 4 };
+      }
+      return { 名称: c.名称, 分类: c.分类, 简介: '本地条目', 星级: 0 };
+    };
     let 体 = '';
     if (标签 === '收藏') {
       const 列 = C.收藏列表();
@@ -447,7 +456,11 @@
     const 项 = C.全部资源.find((r) => r.名称 === 名称 && r.分类 === 分类)
       || C.自建列表().find((r) => r.名称 === 名称)
       || C.全部资源.find((r) => r.名称 === 名称);
-    if (!项) return;
+    if (!项) {
+      // 找不到资源卡 (例如从收藏/历史点入的文章) → 改开文档预览
+      if (名称) 打开文档预览(名称);
+      return;
+    }
     C.记录历史(项);
     C.状态.当前 = 项;
     const 键 = (项.分类 || '') + '/' + 项.名称;
@@ -493,6 +506,8 @@
   }
 
   function 关弹窗() {
+    const C = 核();
+    if (C.状态) C.状态.当前文 = null;
     const 罩 = document.querySelector('#遮罩');
     if (罩) 罩.classList.remove('显示');
     if (location.hash.startsWith('#/详情')) {
@@ -555,12 +570,16 @@
     document.querySelector('#遮罩').classList.add('显示');
   }
 
-  // 文章弹窗预览 (点击文章卡片 → 遮罩弹窗 → "阅读全文"进详情)
+  // 文章弹窗预览 (遮罩), 支持 标签/点赞/收藏/评论 + 阅读全文进详情
   function 打开文档预览(标题) {
     const C = 核();
     const 文 = C.文章表.find((a) => a.标题 === 标题) || C.自建列表().find((a) => a.标题 === 标题);
     if (!文) return;
+    C.状态.当前文 = 文;
+    C.状态.当前 = null;
     const 图标 = 文.格式 === 'svg' ? '🖼️' : (文.格式 === 'html' ? '📝' : '📄');
+    const 键 = (文.板块 || '理学') + '/' + 文.标题;
+    const 已藏 = C.是否收藏(文.标题);
     const 弹 = document.querySelector('#弹窗');
     弹.innerHTML = `
       <div class="弹头">
@@ -573,11 +592,28 @@
         <button class="关闭钮" data-动作="关弹窗">×</button>
       </div>
       <div class="弹体">
+        ${(文.标签 || []).length ? `<div class="标签行">${文.标签.map((t) => `<span class="标签" data-动作="搜标签" data-标签="${转义(t)}">#${转义(t)}</span>`).join('')}</div>` : ''}
         ${渲染正文(文)}
         <div class="操作行">
+          <button class="操作钮" id="赞钮" data-动作="点赞" data-名称="${转义(文.标题)}">👍 赞 <span id="赞数">${C.点赞数(文.标题)}</span></button>
+          <button class="操作钮 ${已藏 ? 'on' : ''}" id="藏钮" data-动作="收藏" data-分类="${转义(文.板块 || '理学')}" data-名称="${转义(文.标题)}">⭐ ${已藏 ? '已收藏' : '收藏'}</button>
           <button class="主钮" data-动作="文档" data-标题="${转义(文.标题)}">📖 阅读全文</button>
           <button class="次钮" data-动作="复制" data-文本="${转义(文.正文 || '')}">复制全文</button>
           <button class="次钮" data-动作="关弹窗">关闭</button>
+        </div>
+        <div class="评论框">
+          <div class="区标题小">评论 <span class="徽章" id="评论后端徽章">localStorage</span></div>
+          <textarea id="评论输入" placeholder="评论这篇文章…"></textarea>
+          <div class="操作行">
+            <button class="主钮" id="评论发送" data-动作="发评论" data-键="${转义(键)}">发送评论</button>
+          </div>
+          <div id="评论列表" style="margin-top:10px">
+            ${C.某键评论(键).map((c) => `
+              <div class="评论项">
+                <div class="元">${转义(c.姓名)} · ${转义(c.时间)}</div>
+                <div class="文">${转义(c.文本)}</div>
+              </div>`).join('') || '<div class="元" style="color:#a89ba4">暂无评论</div>'}
+          </div>
         </div>
       </div>`;
     document.querySelector('#遮罩').classList.add('显示');
@@ -778,8 +814,8 @@
           if (!文) { C.提示('请输入评论内容'); return; }
           C.添加评论(元.dataset.键, '访客', 文);
           C.提示('评论已保存 (localStorage)');
-          const 项 = C.状态.当前;
-          if (项) 打开详情(项.分类, 项.名称);
+          if (C.状态.当前文) 打开文档预览(C.状态.当前文.标题);
+          else if (C.状态.当前) 打开详情(C.状态.当前.分类, C.状态.当前.名称);
           break;
         }
         case '加速这条': {
