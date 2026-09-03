@@ -469,6 +469,62 @@ gh auth login 到底要不要加 --web,
 
 提示: 本站命令速查也可在 理学板块 顶部的一键复制手册中查看。`
     },
+
+    {
+      标题: '2026 GEO 生成引擎优化实践', 作者: 'truenice2', 日期: '2026-09-03',
+      标签: ['GEO', 'SEO', 'AI 搜索'], 格式: 'txt', 板块: '理学',
+      正文:
+`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  2026 GEO 生成引擎优化实践
+  作者: truenice2   更新: 2026-09-03
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+【0. 什么是 GEO】
+
+  GEO (Generative Engine Optimization) = 面向生成引擎的优化。
+  ChatGPT / Perplexity / Google AI Overviews / Copilot 已经能直接
+  回答问题而不产生点击, 一个答案只会引用 2~7 个站点。
+  优化目标从"排在结果页"变成"成为模型引用的那句话"。
+
+【1. 最重要的五件事】
+
+  1) 答案前置: 每段开头 1~2 句直接给结论与定义
+  2) 结构化数据: FAQPage / Article / Organization / Breadcrumb
+  3) 证据密度: 具体数字、带日期的基准、对比表、命名实体
+  4) 可引用溯源: 作者署名、最后更新日期、行内来源
+  5) AI 可达性: robots.txt 放行 AI 爬虫、llms.txt、可抓取的 HTML
+
+【2. Schema 优先级 (JSON-LD)】
+
+  Article/BlogPosting  文章类, 含 author/datePublished/dateModified
+  FAQPage              问答即答案单元 (AI 抽取率最高的类型之一)
+  HowTo                教程/流程, 步骤可被逐条引用
+  Organization         站点一次, 配 sameAs 与 logo
+  BreadcrumbList       主题层级
+
+【3. llms.txt 与 AI 爬虫】
+
+  robots.txt 放行:
+    GPTBot / ChatGPT-User / ClaudeBot / PerplexityBot / Google-Extended
+
+  llms.txt: 类似 robots.txt 的 LLM 站点地图, 2026 年早期标准,
+  实现成本极低 (一个 txt), 值得先行占位。
+
+【4. 本站已落地 (2026-09-03)】
+
+  · Bing Webmaster: meta msvalidate.01 + BingSiteAuth.xml + CNAME 验证
+  · robots.txt: 放行全部 + AI 生成引擎爬虫
+  · llms.txt: 板块 / 文档 / 加速源概览
+  · sitemap.xml + JSON-LD (WebSite + Organization) 在首页 head
+  · 内容: txt/html/svg 文档自带作者与日期, 文章卡片含格式徽章
+
+【5. 后续建议】
+
+  · 文档详情页加 Article schema (日期/作者已有字段)
+  · 每篇文档开头写"一段式答案"再展开
+  · 定期用 ChatGPT/Perplexity 提问自查是否被引用
+`
+    },
   ];
 
   const 命令表 = [
