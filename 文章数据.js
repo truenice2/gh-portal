@@ -409,12 +409,137 @@ gh auth login 到底要不要加 --web,
 工具的价值, 往往就藏在这种"每天都会忘一次"的地方。
 `
     },
+
+    {
+      标题: 'gh / git 命令速查全表', 作者: 'truenice2', 日期: '2026-09-03',
+      标签: ['gh', 'git', '命令'], 格式: 'txt', 板块: '理学',
+      正文:
+`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  gh / git 命令速查全表 (34 条)
+  板块: 理学    来源: 命令表迁移为 txt 文章    更新: 2026-09-03
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+【认证】🔐
+  gh auth login --web
+  gh auth login --with-token < token.txt
+  gh auth status
+  gh auth switch
+  gh auth refresh
+  gh auth setup-git
+
+【仓库】📦
+  gh repo clone <owner/repo>
+  gh repo create <name> --public --source=. --push
+  gh repo fork <owner/repo> --clone
+  gh repo view --web
+  gh repo list --limit 50
+  gh repo edit --description "..."
+
+【PR】🔀
+  gh pr create --fill
+  gh pr list --state open
+  gh pr checkout 123
+  gh pr merge 123 --squash
+  gh pr checks
+  gh pr diff 123
+
+【Issue】🐛
+  gh issue create --title "..." --body "..."
+  gh issue list --label bug
+  gh issue status
+  gh issue close 12
+
+【Release】🚀
+  gh release create v1.0.0 --generate-notes
+  gh release upload v1.0.0 ./dist.zip
+  gh release list
+  gh release download v1.0.0
+
+【Actions】⚙️
+  gh run list --limit 10
+  gh run watch
+  gh run rerun <run-id>
+  gh workflow run deploy.yml
+
+【加速】⚡
+  git config --global url."https://ghfast.top/https://github.com/".insteadOf "https://github.com/"
+  npm config set registry https://registry.npmmirror.com
+  pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+  git clone https://gitclone.com/github.com/owner/repo.git
+
+提示: 本站命令速查也可在 理学板块 顶部的一键复制手册中查看。`
+    },
   ];
 
+  const 命令表 = [
+    {
+      组: '认证', 图标: '🔐', 命令: [
+        { 令: 'gh auth login --web', 说: '浏览器设备码授权登录 GitHub' },
+        { 令: 'gh auth login --with-token < token.txt', 说: '用 Personal Access Token 登录' },
+        { 令: 'gh auth status', 说: '查看当前登录账号与权限' },
+        { 令: 'gh auth switch', 说: '多账号之间切换' },
+        { 令: 'gh auth refresh', 说: '刷新令牌与作用域' },
+        { 令: 'gh auth setup-git', 说: '把 gh 作为 git 凭据助手' },
+      ]
+    },
+    {
+      组: '仓库', 图标: '📦', 命令: [
+        { 令: 'gh repo clone <owner/repo>', 说: '克隆仓库 (免密码)' },
+        { 令: 'gh repo create <name> --public --source=. --push', 说: '从当前目录创建并推送' },
+        { 令: 'gh repo fork <owner/repo> --clone', 说: '派生并克隆' },
+        { 令: 'gh repo view --web', 说: '浏览器打开仓库页' },
+        { 令: 'gh repo list --limit 50', 说: '列出自己的仓库' },
+        { 令: 'gh repo edit --description "..."', 说: '修改仓库描述' },
+      ]
+    },
+    {
+      组: 'PR', 图标: '🔀', 命令: [
+        { 令: 'gh pr create --fill', 说: '按提交信息创建 PR' },
+        { 令: 'gh pr list --state open', 说: '列出开放 PR' },
+        { 令: 'gh pr checkout 123', 说: '切到 PR 分支' },
+        { 令: 'gh pr merge 123 --squash', 说: '压缩合并' },
+        { 令: 'gh pr checks', 说: '查看 CI 检查结果' },
+        { 令: 'gh pr diff 123', 说: '查看 PR 差异' },
+      ]
+    },
+    {
+      组: 'Issue', 图标: '🐛', 命令: [
+        { 令: 'gh issue create --title "..." --body "..."', 说: '新建 issue' },
+        { 令: 'gh issue list --label bug', 说: '按标签筛选' },
+        { 令: 'gh issue status', 说: '查看分配/提及/创建的 issue' },
+        { 令: 'gh issue close 12', 说: '关闭 issue' },
+      ]
+    },
+    {
+      组: 'Release', 图标: '🚀', 命令: [
+        { 令: 'gh release create v1.0.0 --generate-notes', 说: '创建发布并自动生成说明' },
+        { 令: 'gh release upload v1.0.0 ./dist.zip', 说: '上传发布附件' },
+        { 令: 'gh release list', 说: '列出发布' },
+        { 令: 'gh release download v1.0.0', 说: '下载发布附件' },
+      ]
+    },
+    {
+      组: 'Actions', 图标: '⚙️', 命令: [
+        { 令: 'gh run list --limit 10', 说: '列出工作流运行' },
+        { 令: 'gh run watch', 说: '实时跟踪运行日志' },
+        { 令: 'gh run rerun <run-id>', 说: '重跑失败任务' },
+        { 令: 'gh workflow run deploy.yml', 说: '手动触发工作流' },
+      ]
+    },
+    {
+      组: '加速', 图标: '⚡', 命令: [
+        { 令: 'git config --global url."https://ghfast.top/https://github.com/".insteadOf "https://github.com/"', 说: '全局替换, git clone 自动加速' },
+        { 令: 'npm config set registry https://registry.npmmirror.com', 说: 'npm 切国内源' },
+        { 令: 'pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple', 说: 'pip 切清华源' },
+        { 令: 'git clone https://gitclone.com/github.com/owner/repo.git', 说: 'gitclone 镜像克隆' },
+      ]
+    },
+  ]
+
   const 数据 = {
-    文章表,
+    文章表, 命令表,
     格式表: ['txt', 'html', 'svg'],
-    版本: 'v1.1',
+    版本: 'v1.2',
     生成时间: '2026-09-03',
   };
 

@@ -1,5 +1,5 @@
 // ════════════════════════════════════════════════════════════
-// 网站数据.js — GitHub 资源门户 · 种子数据 (文章内容已拆至 文章数据.js)
+// 网站数据.js — GitHub 资源门户 · 种子数据 (文章/命令已拆至 文章数据.js)
 // 加载方式: 经典 <script src> (file:// 协议可直接加载, 不受 CORS 限制)
 //           也可在 Node 中 require / 在 ESM 中读取 window.网站数据
 // 说明: 本文件不使用 export 语句, 保证 file:// 下经典脚本与 ESM 环境都能用
@@ -12,9 +12,9 @@
     名: 'GH 资源门户',
     全名: 'GitHub 资源门户 · GH Portal',
     副标题: '加速 · 部署 · 项目 · 命令行 · 文档',
-    版本: 'v1.2',
+    版本: 'v1.3',
     图标: '🌸',
-    上线: { 地址: 'https://gh.avasophia.indevs.in/', 仓库: 'truenice2/gh-portal' },
+    上线: { 地址: 'https://ptgh.avasophia.indevs.in/', 仓库: 'truenice2/gh-portal' },
     账号表: {
       gh: 'truenice2',          // gh CLI 已登录账号 (2026-09-03)
       gh名: 'niceup',
@@ -308,72 +308,6 @@
       链接: '', 要点: ['配色变量', '浮动顶栏', '折叠侧栏'] },
   ];
 
-  // ── gh / git 命令速查表 ──
-  const 命令表 = [
-    {
-      组: '认证', 图标: '🔐', 命令: [
-        { 令: 'gh auth login --web', 说: '浏览器设备码授权登录 GitHub' },
-        { 令: 'gh auth login --with-token < token.txt', 说: '用 Personal Access Token 登录' },
-        { 令: 'gh auth status', 说: '查看当前登录账号与权限' },
-        { 令: 'gh auth switch', 说: '多账号之间切换' },
-        { 令: 'gh auth refresh', 说: '刷新令牌与作用域' },
-        { 令: 'gh auth setup-git', 说: '把 gh 作为 git 凭据助手' },
-      ]
-    },
-    {
-      组: '仓库', 图标: '📦', 命令: [
-        { 令: 'gh repo clone <owner/repo>', 说: '克隆仓库 (免密码)' },
-        { 令: 'gh repo create <name> --public --source=. --push', 说: '从当前目录创建并推送' },
-        { 令: 'gh repo fork <owner/repo> --clone', 说: '派生并克隆' },
-        { 令: 'gh repo view --web', 说: '浏览器打开仓库页' },
-        { 令: 'gh repo list --limit 50', 说: '列出自己的仓库' },
-        { 令: 'gh repo edit --description "..."', 说: '修改仓库描述' },
-      ]
-    },
-    {
-      组: 'PR', 图标: '🔀', 命令: [
-        { 令: 'gh pr create --fill', 说: '按提交信息创建 PR' },
-        { 令: 'gh pr list --state open', 说: '列出开放 PR' },
-        { 令: 'gh pr checkout 123', 说: '切到 PR 分支' },
-        { 令: 'gh pr merge 123 --squash', 说: '压缩合并' },
-        { 令: 'gh pr checks', 说: '查看 CI 检查结果' },
-        { 令: 'gh pr diff 123', 说: '查看 PR 差异' },
-      ]
-    },
-    {
-      组: 'Issue', 图标: '🐛', 命令: [
-        { 令: 'gh issue create --title "..." --body "..."', 说: '新建 issue' },
-        { 令: 'gh issue list --label bug', 说: '按标签筛选' },
-        { 令: 'gh issue status', 说: '查看分配/提及/创建的 issue' },
-        { 令: 'gh issue close 12', 说: '关闭 issue' },
-      ]
-    },
-    {
-      组: 'Release', 图标: '🚀', 命令: [
-        { 令: 'gh release create v1.0.0 --generate-notes', 说: '创建发布并自动生成说明' },
-        { 令: 'gh release upload v1.0.0 ./dist.zip', 说: '上传发布附件' },
-        { 令: 'gh release list', 说: '列出发布' },
-        { 令: 'gh release download v1.0.0', 说: '下载发布附件' },
-      ]
-    },
-    {
-      组: 'Actions', 图标: '⚙️', 命令: [
-        { 令: 'gh run list --limit 10', 说: '列出工作流运行' },
-        { 令: 'gh run watch', 说: '实时跟踪运行日志' },
-        { 令: 'gh run rerun <run-id>', 说: '重跑失败任务' },
-        { 令: 'gh workflow run deploy.yml', 说: '手动触发工作流' },
-      ]
-    },
-    {
-      组: '加速', 图标: '⚡', 命令: [
-        { 令: 'git config --global url."https://ghfast.top/https://github.com/".insteadOf "https://github.com/"', 说: '全局替换, git clone 自动加速' },
-        { 令: 'npm config set registry https://registry.npmmirror.com', 说: 'npm 切国内源' },
-        { 令: 'pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple', 说: 'pip 切清华源' },
-        { 令: 'git clone https://gitclone.com/github.com/owner/repo.git', 说: 'gitclone 镜像克隆' },
-      ]
-    },
-  ];
-
 
   // ── 站外导航 ──
   const 导航站 = [
@@ -422,7 +356,7 @@
 
   const 数据 = {
     站点, 仓库表, 板块表, 板块查, 分类图标, 分类说明,
-    加速源, 资源, 命令表, 导航站, CDN源, 热门标签,
+    加速源, 资源, 导航站, CDN源, 热门标签,
     版本: 站点.版本,
     生成时间: '2026-09-03',
   };

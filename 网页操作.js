@@ -291,12 +291,12 @@
       ${命令手册HTML()}`;
   }
 
-  // ── 文章卡片视图 ──
+  // ── 文章卡片视图 (点击弹预览遮罩, 再点"阅读全文"进详情页) ──
   function 文章卡片HTML(文) {
     const 格式 = ((文 && 文.格式) || 'txt').toUpperCase();
     const 图标 = 文.格式 === 'svg' ? '🖼️' : (文.格式 === 'html' ? '📝' : '📄');
     return `
-      <div class="卡片 文档卡" data-动作="文档" data-标题="${转义(文.标题)}">
+      <div class="卡片 文档卡" data-动作="文档预览" data-标题="${转义(文.标题)}">
         <div class="卡头">${图标}</div>
         <div class="卡体">
           <div class="卡名">${转义(文.标题)}</div>
@@ -555,6 +555,34 @@
     document.querySelector('#遮罩').classList.add('显示');
   }
 
+  // 文章弹窗预览 (点击文章卡片 → 遮罩弹窗 → "阅读全文"进详情)
+  function 打开文档预览(标题) {
+    const C = 核();
+    const 文 = C.文章表.find((a) => a.标题 === 标题) || C.自建列表().find((a) => a.标题 === 标题);
+    if (!文) return;
+    const 图标 = 文.格式 === 'svg' ? '🖼️' : (文.格式 === 'html' ? '📝' : '📄');
+    const 弹 = document.querySelector('#弹窗');
+    弹.innerHTML = `
+      <div class="弹头">
+        <span class="图">${图标}</span>
+        <div>
+          <h3>${转义(文.标题)}</h3>
+          <div class="副">${转义(文.板块 || '理学')} · ${转义(文.作者 || '')} · ${转义(文.日期 || '')}
+            <span class="徽章">${转义(((文.格式) || 'txt').toUpperCase())}</span></div>
+        </div>
+        <button class="关闭钮" data-动作="关弹窗">×</button>
+      </div>
+      <div class="弹体">
+        ${渲染正文(文)}
+        <div class="操作行">
+          <button class="主钮" data-动作="文档" data-标题="${转义(文.标题)}">📖 阅读全文</button>
+          <button class="次钮" data-动作="复制" data-文本="${转义(文.正文 || '')}">复制全文</button>
+          <button class="次钮" data-动作="关弹窗">关闭</button>
+        </div>
+      </div>`;
+    document.querySelector('#遮罩').classList.add('显示');
+  }
+
   function 用户面板(显示) {
     const C = 核();
     const 面 = document.querySelector('#用户面板');
@@ -763,7 +791,15 @@
           }
           break;
         }
-        case '文档': C.跳转('文档/' + encodeURIComponent(元.dataset.标题)); break;
+        case '文档预览':
+          打开文档预览(元.dataset.标题);
+          break;
+        case '文档': {
+          const 罩 = document.querySelector('#遮罩');
+          if (罩) 罩.classList.remove('显示');
+          C.跳转('文档/' + encodeURIComponent(元.dataset.标题));
+          break;
+        }
         case '文档列表': C.跳转('文档'); break;
         case '撰写': 打开撰写(); break;
         case '新建': 打开新建(); break;
@@ -897,7 +933,7 @@
   // ── 暴露给 网站主页.js (核心) 调用 ──
   window.门户操作 = {
     渲染页面, 绑定事件, 绑定滚动, 渲染加速结果,
-    打开详情, 关弹窗, 打开新建, 打开撰写, 用户面板,
+    打开详情, 打开文档预览, 关弹窗, 打开新建, 打开撰写, 用户面板,
     应用侧栏, 切换侧栏, 刷新存储状态, 下载文件, 渲染正文,
   };
 })();

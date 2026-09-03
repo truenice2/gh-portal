@@ -20,7 +20,8 @@
   const 分类图标 = 数据.分类图标 || {};
   const 分类说明 = 数据.分类说明 || {};
   const 加速源表 = Array.isArray(数据.加速源) ? 数据.加速源 : [];
-  const 命令表 = Array.isArray(数据.命令表) ? 数据.命令表 : [];
+  // 命令表已随文章迁至 文章数据.js (命令速查全表 也是一篇 txt 文章)
+  const 命令表 = Array.isArray(文章.命令表) ? 文章.命令表 : [];
   const 导航站 = Array.isArray(数据.导航站) ? 数据.导航站 : [];
   const 仓库表 = Array.isArray(数据.仓库表) ? 数据.仓库表 : [];
   const 板块表 = Array.isArray(数据.板块表) ? 数据.板块表 : [];
