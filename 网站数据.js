@@ -12,15 +12,16 @@
     名: 'GH 资源门户',
     全名: 'GitHub 资源门户 · GH Portal',
     副标题: '加速 · 部署 · 项目 · 命令行 · 文档',
-    版本: 'v1.0',
+    版本: 'v1.2',
     图标: '🌸',
+    上线: { 地址: 'https://gh.avasophia.indevs.in/', 仓库: 'truenice2/gh-portal' },
     账号表: {
       gh: 'truenice2',          // gh CLI 已登录账号 (2026-09-03)
       gh名: 'niceup',
       hexo: 'morisw2',          // hexoblog 部署账号
       页: 'https://truenice2.github.io',
     },
-    说明: '本地 GitHub 工作区门户: 加速下载 / 部署托管 / 本地项目 / gh 命令行 / 技术文档, 纯静态 file:// 直开',
+    说明: '本地 GitHub 工作区门户: 加速下载 / 部署托管 / 本地项目 / gh 命令行 / 技术文档, 纯静态 file:// 直开, 亦可线上访问',
     更新: '2026-09-03',
   };
 
