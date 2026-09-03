@@ -1,0 +1,425 @@
+/* ═══════════════════════════════════════════════════
+   GitHub 资源门户 — 样式 (白色 + 粉色主题)
+   顶栏浮动: 向下滚隐藏 / 向上滚显示
+   侧边栏: 可折叠 (收起时内容区列数增加)
+   全部为静态样式, file:// 直开可用
+   ═══════════════════════════════════════════════════ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  /* 白色 + 浅粉色主题 (浅粉: 只做点缀, 大面积留白) */
+  --主色: #f7a8c4;          /* 浅粉主色 */
+  --主色深: #e07fa6;        /* 深一档, 用于悬停 */
+  --深粉字: #8a3358;        /* 浅粉底上的可读文字色 */
+  --次色: #fbd8e6;          /* 更浅的粉, 描边与悬停 */
+  --背景: #fffafd;          /* 近白微粉 */
+  --卡片: #ffffff;
+  --文字: #4a4048;
+  --文字浅: #a08f99;
+  --边框: #fbe4ef;
+  --圆角: 12px;
+  --阴影: 0 2px 10px rgba(247, 168, 196, 0.18);
+  --阴影悬停: 0 6px 20px rgba(247, 168, 196, 0.32);
+  --顶栏高: 62px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+  background: var(--背景);
+  color: var(--文字);
+  line-height: 1.6;
+  padding-top: var(--顶栏高);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a { color: var(--深粉字); text-decoration: none; cursor: pointer; }
+button { font-family: inherit; cursor: pointer; }
+
+/* ═══ 顶栏 (浮动) ═══ */
+.顶栏 {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: linear-gradient(135deg, #fff4f9, #fbd8e6);
+  color: var(--深粉字); padding: 10px 22px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+  border-bottom: 1px solid var(--边框);
+  box-shadow: 0 2px 12px rgba(247, 168, 196, 0.28);
+  transform: translateY(0); transition: transform 0.3s ease;
+}
+.顶栏.隐藏 { transform: translateY(-100%); }
+
+.品牌 { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.品牌图标 { font-size: 26px; }
+.品牌 h1 { font-size: 18px; font-weight: 700; letter-spacing: 1px; color: var(--深粉字); }
+.品牌 p { font-size: 11px; color: #b0708f; }
+
+.导航 { display: flex; flex-wrap: wrap; gap: 6px; }
+.导航 a {
+  color: #a04a72; padding: 6px 12px; border-radius: 20px; font-size: 14px;
+  background: rgba(255, 255, 255, 0.75); border: 1px solid transparent;
+  transition: all 0.2s; white-space: nowrap;
+}
+.导航 a:hover { background: #fff; border-color: var(--深粉字); }
+.导航 a.活跃 { background: #fff; color: var(--深粉字); font-weight: 700; border-color: var(--深粉字); }
+
+.顶栏右 { display: flex; align-items: center; gap: 8px; }
+.搜索框 {
+  padding: 7px 14px; border-radius: 20px; border: 1px solid var(--边框); width: 190px;
+  font-size: 13px; outline: none; background: #fff; color: var(--文字);
+}
+.搜索框:focus { border-color: var(--深粉字); }
+.搜索框::placeholder { color: #c3aeb8; }
+.圆钮 {
+  background: rgba(255, 255, 255, 0.9); border: 1px solid var(--边框); color: var(--深粉字);
+  width: 34px; height: 34px; border-radius: 50%; font-size: 16px;
+  display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s;
+}
+.圆钮:hover { background: #fff; border-color: var(--深粉字); }
+
+/* ═══ 布局 ═══ */
+.布局 { display: flex; flex: 1; }
+
+.侧边栏 {
+  flex: 0 0 208px; background: var(--卡片); border-right: 1px solid var(--边框);
+  padding: 14px 10px; overflow-y: auto; position: sticky; top: var(--顶栏高);
+  height: calc(100vh - var(--顶栏高));
+  box-shadow: 1px 0 8px rgba(212, 69, 111, 0.06);
+  transition: flex-basis 0.25s ease, padding 0.25s ease; z-index: 60;
+}
+.侧边栏.收起 { flex: 0 0 0; padding: 0; border-right: none; overflow: hidden; }
+
+.侧栏头 {
+  display: flex; align-items: center; justify-content: space-between;
+  font-weight: 700; font-size: 14px; color: var(--深粉字);
+  padding: 4px 8px 10px; border-bottom: 1px dashed var(--边框); margin-bottom: 8px;
+}
+.侧栏折叠钮 {
+  background: var(--背景); border: 1px solid var(--边框); color: var(--深粉字);
+  border-radius: 6px; padding: 2px 7px; font-size: 12px;
+}
+.侧栏折叠钮:hover { background: var(--次色); color: var(--深粉字); }
+
+.侧栏组 { margin-bottom: 14px; }
+.侧栏组标题 { font-size: 12px; color: var(--文字浅); padding: 4px 8px; }
+.侧栏项 {
+  display: flex; align-items: center; gap: 8px; padding: 7px 10px;
+  border-radius: 8px; font-size: 13.5px; cursor: pointer; color: var(--文字);
+  transition: background 0.15s; white-space: nowrap;
+}
+.侧栏项:hover { background: var(--背景); color: var(--深粉字); }
+.侧栏项.活跃 { background: var(--主色); color: var(--深粉字); font-weight: 700; }
+.侧栏项 .计 { margin-left: auto; font-size: 11px; color: var(--文字浅); }
+.侧栏项.活跃 .计 { color: #d98ba8; }
+
+.展开钮 {
+  display: none; position: fixed; left: 8px; top: calc(var(--顶栏高) + 10px);
+  z-index: 70; background: var(--主色); color: var(--深粉字); border: none;
+  border-radius: 0 8px 8px 0; padding: 8px 6px; font-size: 13px;
+}
+
+.内容 { flex: 1; padding: 18px 22px 40px; min-width: 0; }
+
+/* ═══ 首页 Hero ═══ */
+.横幅 {
+  background: linear-gradient(135deg, #fff, #ffeaf3);
+  border: 1px solid var(--边框); border-radius: var(--圆角);
+  padding: 22px 24px; box-shadow: var(--阴影); margin-bottom: 18px;
+}
+.横幅 h2 { font-size: 23px; color: var(--深粉字); margin-bottom: 6px; }
+.横幅 p { color: #6b6169; font-size: 14px; margin-bottom: 14px; }
+.统计行 { display: flex; flex-wrap: wrap; gap: 10px; }
+.统计块 {
+  background: #fff; border: 1px solid var(--边框); border-radius: 10px;
+  padding: 8px 16px; text-align: center; min-width: 92px;
+}
+.统计块 b { display: block; font-size: 19px; color: var(--深粉字); }
+.统计块 span { font-size: 12px; color: var(--文字浅); }
+
+/* ═══ 加速工具 ═══ */
+.加速区 {
+  background: var(--卡片); border: 1px solid var(--边框); border-radius: var(--圆角);
+  padding: 16px 18px; margin-bottom: 18px; box-shadow: var(--阴影);
+}
+.区标题 { font-size: 16px; font-weight: 700; color: var(--深粉字); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.加速输入行 { display: flex; gap: 8px; flex-wrap: wrap; }
+.加速输入 {
+  flex: 1; min-width: 260px; padding: 9px 14px; border: 1px solid var(--边框);
+  border-radius: 8px; font-size: 13.5px; outline: none; background: #fffafd;
+}
+.加速输入:focus { border-color: var(--次色); }
+.主钮 {
+  background: var(--主色); color: var(--深粉字); border: none; border-radius: 8px;
+  padding: 9px 18px; font-size: 13.5px; font-weight: 600; transition: background 0.2s;
+}
+.主钮:hover { background: var(--主色深); color: #fff; }
+.次钮 {
+  background: #fff; color: var(--深粉字); border: 1px solid var(--次色);
+  border-radius: 8px; padding: 7px 14px; font-size: 13px;
+}
+.次钮:hover { background: var(--背景); }
+
+.加速结果 { margin-top: 12px; display: none; }
+.加速结果.显示 { display: block; }
+.加速项 {
+  display: flex; align-items: center; gap: 10px; padding: 8px 10px;
+  border: 1px solid var(--边框); border-radius: 8px; margin-bottom: 6px; background: #fffafd;
+}
+.加速项 .名 { font-weight: 600; font-size: 13px; min-width: 150px; color: var(--深粉字); }
+.加速项 .链 {
+  flex: 1; font-size: 12px; color: #6b6169; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap; font-family: Consolas, monospace;
+}
+.加速项 .钮组 { display: flex; gap: 6px; }
+.小钮 {
+  background: var(--背景); border: 1px solid var(--边框); color: var(--深粉字);
+  border-radius: 6px; padding: 3px 9px; font-size: 12px;
+}
+.小钮:hover { background: var(--次色); color: var(--深粉字); border-color: var(--次色); }
+
+/* ═══ 工具条 (筛选/排序) ═══ */
+.工具条 {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  background: var(--卡片); border: 1px solid var(--边框); border-radius: var(--圆角);
+  padding: 10px 14px; margin-bottom: 14px; box-shadow: var(--阴影);
+}
+.工具条 .组 { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.筛选片 {
+  padding: 5px 13px; border-radius: 18px; border: 1px solid var(--边框);
+  background: #fff; font-size: 13px; color: var(--文字); transition: all 0.18s;
+}
+.筛选片:hover { border-color: var(--次色); color: var(--深粉字); }
+.筛选片.活跃 { background: var(--主色); color: var(--深粉字); border-color: var(--深粉字); font-weight: 600; }
+.下拉 {
+  padding: 6px 10px; border-radius: 8px; border: 1px solid var(--边框);
+  font-size: 13px; background: #fff; color: var(--文字); outline: none;
+}
+.计数 { margin-left: auto; font-size: 12.5px; color: var(--文字浅); }
+
+/* ═══ 卡片网格 ═══ */
+.网格 {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
+  gap: 14px;
+}
+body.侧栏收起 .网格 { grid-template-columns: repeat(auto-fill, minmax(192px, 1fr)); }
+
+.卡片 {
+  background: var(--卡片); border: 1px solid var(--边框); border-radius: var(--圆角);
+  overflow: hidden; box-shadow: var(--阴影); cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column;
+}
+.卡片:hover { transform: translateY(-3px); box-shadow: var(--阴影悬停); }
+.卡头 {
+  height: 76px; display: flex; align-items: center; justify-content: center;
+  font-size: 34px; background: linear-gradient(135deg, #fff0f6, #ffe0ee);
+}
+.卡体 { padding: 10px 12px 12px; flex: 1; display: flex; flex-direction: column; }
+.卡名 {
+  font-size: 14px; font-weight: 700; color: var(--文字); margin-bottom: 4px;
+  display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+}
+.卡分类 { font-size: 11.5px; color: var(--深粉字); margin-bottom: 5px; }
+.卡介 {
+  font-size: 12px; color: var(--文字浅); flex: 1;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.卡尾 { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 11.5px; color: var(--文字浅); }
+.星 { color: #f5b73d; letter-spacing: 1px; }
+.收藏标 { margin-left: auto; color: var(--深粉字); font-size: 13px; }
+
+/* ═══ 空状态 ═══ */
+.空态 { text-align: center; padding: 60px 20px; color: var(--文字浅); }
+.空态 .图 { font-size: 46px; margin-bottom: 10px; }
+
+/* ═══ 详情弹窗 ═══ */
+.遮罩 {
+  position: fixed; inset: 0; background: rgba(45, 42, 46, 0.45);
+  z-index: 200; display: none; align-items: center; justify-content: center; padding: 22px;
+}
+.遮罩.显示 { display: flex; }
+.弹窗 {
+  background: var(--卡片); border-radius: 14px; width: min(860px, 100%);
+  max-height: 88vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  animation: 弹入 0.22s ease;
+}
+@keyframes 弹入 { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.弹头 {
+  padding: 16px 20px; border-bottom: 1px solid var(--边框);
+  display: flex; align-items: flex-start; gap: 12px;
+  background: linear-gradient(135deg, #fff0f6, #fff);
+  position: sticky; top: 0; z-index: 2;
+}
+.弹头 .图 { font-size: 34px; }
+.弹头 h3 { font-size: 18px; color: var(--文字); }
+.弹头 .副 { font-size: 12.5px; color: var(--文字浅); }
+.关闭钮 { margin-left: auto; background: none; border: none; font-size: 22px; color: var(--文字浅); line-height: 1; }
+.关闭钮:hover { color: var(--深粉字); }
+.弹体 { padding: 16px 20px; }
+.弹体 p { font-size: 13.5px; color: #5b5364; margin-bottom: 12px; }
+.要点行 { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.要点 {
+  background: var(--背景); border: 1px solid var(--边框); color: var(--深粉字);
+  border-radius: 14px; padding: 3px 11px; font-size: 12px;
+}
+.标签行 { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.标签 { background: #fff0f6; color: var(--深粉字); border-radius: 6px; padding: 2px 8px; font-size: 12px; }
+.操作行 { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.操作钮 {
+  background: #fff; border: 1px solid var(--次色); color: var(--深粉字);
+  border-radius: 20px; padding: 6px 16px; font-size: 13px; display: inline-flex; align-items: center; gap: 5px;
+}
+.操作钮:hover { background: var(--背景); }
+.操作钮.on { background: var(--主色); color: var(--深粉字); border-color: var(--深粉字); }
+.区标题小 { font-size: 14px; font-weight: 700; color: var(--深粉字); margin: 14px 0 8px; }
+
+/* ═══ 命令表 ═══ */
+.命令组 { margin-bottom: 16px; }
+.命令组标题 {
+  font-size: 14px; font-weight: 700; color: var(--深粉字);
+  padding: 6px 10px; background: var(--背景); border-radius: 8px; margin-bottom: 8px;
+}
+.命令行 {
+  display: flex; align-items: center; gap: 10px; padding: 7px 10px;
+  border: 1px solid var(--边框); border-radius: 8px; margin-bottom: 6px; background: #fffafd;
+}
+.命令行 code {
+  flex: 1; font-family: Consolas, "Courier New", monospace; font-size: 12.5px;
+  color: #3b3540; overflow-x: auto; white-space: nowrap;
+}
+.命令行 .说 { font-size: 12px; color: var(--文字浅); max-width: 40%; text-align: right; }
+
+/* ═══ 文档 (Markdown) ═══ */
+.文档体 { font-size: 14px; color: #453e48; line-height: 1.8; }
+.文档体 h1 { font-size: 21px; color: var(--深粉字); margin: 6px 0 12px; }
+.文档体 h2 { font-size: 17px; color: var(--深粉字); margin: 18px 0 8px; border-left: 4px solid var(--次色); padding-left: 8px; }
+.文档体 h3 { font-size: 15px; margin: 14px 0 6px; }
+.文档体 p { margin: 8px 0; }
+.文档体 ul, .文档体 ol { margin: 8px 0 8px 22px; }
+.文档体 li { margin: 4px 0; }
+.文档体 code { background: #fff0f6; color: var(--深粉字); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+.文档体 pre {
+  background: #2d2a2e; color: #f7e9f0; padding: 12px 14px; border-radius: 8px;
+  overflow-x: auto; margin: 10px 0; font-size: 12.5px; line-height: 1.6;
+}
+.文档体 pre code { background: none; color: inherit; padding: 0; }
+.文档体 table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; }
+.文档体 th, .文档体 td { border: 1px solid var(--边框); padding: 6px 9px; text-align: left; }
+.文档体 th { background: #fff0f6; color: var(--深粉字); }
+.文档体 blockquote {
+  border-left: 4px solid var(--次色); background: #fffafd; padding: 8px 12px;
+  margin: 10px 0; color: #6b6169; border-radius: 0 6px 6px 0;
+}
+
+/* ═══ txt 正文 (本站不用 Markdown, txt 用等宽块渲染) ═══ */
+.txt正文 {
+  white-space: pre-wrap; word-wrap: break-word;
+  font-family: Consolas, "Courier New", "Microsoft YaHei", monospace;
+  font-size: 13px; line-height: 1.75; color: #453e48;
+  background: #fffafd; border: 1px solid var(--边框); border-radius: 8px;
+  padding: 14px 16px; margin: 0; overflow-x: auto; max-height: 70vh;
+}
+
+/* ═══ svg 图形容器 ═══ */
+.图容器 { text-align: center; padding: 6px 0; }
+.图容器 svg { max-width: 100%; height: auto; border-radius: 8px; }
+
+/* ═══ 文档列表 ═══ */
+.文档卡 {
+  background: var(--卡片); border: 1px solid var(--边框); border-radius: var(--圆角);
+  padding: 12px 14px; margin-bottom: 10px; box-shadow: var(--阴影); cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.文档卡:hover { transform: translateY(-2px); box-shadow: var(--阴影悬停); }
+.文档卡 h4 { font-size: 15px; color: var(--文字); margin-bottom: 4px; }
+.文档卡 .摘 { font-size: 12.5px; color: var(--文字浅); }
+.文档卡 .元 { font-size: 11.5px; color: var(--深粉字); margin-top: 6px; }
+
+/* ═══ 用户面板 ═══ */
+.面板遮罩 {
+  position: fixed; inset: 0; background: rgba(45, 42, 46, 0.35);
+  z-index: 190; display: none;
+}
+.面板遮罩.显示 { display: block; }
+.用户面板 {
+  position: fixed; top: var(--顶栏高); right: 12px; width: 340px; max-height: 76vh;
+  background: var(--卡片); border: 1px solid var(--边框); border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(212, 69, 111, 0.22); z-index: 210;
+  display: none; flex-direction: column; overflow: hidden;
+}
+.用户面板.展开 { display: flex; }
+.面板头 {
+  padding: 12px 16px; border-bottom: 1px solid var(--边框);
+  display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--深粉字);
+  background: linear-gradient(135deg, #fff0f6, #fff);
+}
+.面板体 { padding: 12px 16px; overflow-y: auto; font-size: 13px; }
+.菜单项 {
+  display: flex; align-items: center; gap: 10px; padding: 9px 10px;
+  border-radius: 8px; cursor: pointer; font-size: 13.5px;
+}
+.菜单项:hover { background: var(--背景); color: var(--深粉字); }
+.条目 {
+  display: flex; align-items: center; gap: 8px; padding: 7px 8px;
+  border-bottom: 1px dashed var(--边框); font-size: 13px;
+}
+.条目:last-child { border-bottom: none; }
+.条目 .名 { flex: 1; cursor: pointer; }
+.条目 .名:hover { color: var(--深粉字); }
+.设置项 {
+  padding: 9px 12px; border: 1px solid var(--边框); border-radius: 8px;
+  margin-bottom: 8px; cursor: pointer; font-size: 13px; background: #fffafd;
+}
+.设置项:hover { border-color: var(--次色); }
+.设置项.活跃 { border-color: var(--深粉字); background: #fff0f6; font-weight: 600; color: var(--深粉字); }
+
+/* ═══ 评论区 ═══ */
+.评论框 { margin-top: 14px; border-top: 1px dashed var(--边框); padding-top: 12px; }
+.评论框 textarea {
+  width: 100%; min-height: 62px; border: 1px solid var(--边框); border-radius: 8px;
+  padding: 8px 10px; font-size: 13px; font-family: inherit; resize: vertical; outline: none; background: #fffafd;
+}
+.评论框 textarea:focus { border-color: var(--次色); }
+.评论项 {
+  border-bottom: 1px dashed var(--边框); padding: 7px 0; font-size: 13px;
+}
+.评论项 .元 { font-size: 11.5px; color: var(--文字浅); margin-bottom: 2px; }
+.评论项 .文 { color: #4b4450; }
+.徽章 {
+  display: inline-block; background: var(--背景); border: 1px solid var(--边框);
+  color: var(--深粉字); border-radius: 12px; padding: 1px 9px; font-size: 11.5px; margin-left: 6px;
+}
+
+/* ═══ 提示 ═══ */
+.全局提示 {
+  position: fixed; left: 50%; bottom: 34px; transform: translateX(-50%);
+  background: var(--主色); color: var(--深粉字); padding: 10px 20px; border-radius: 22px;
+  font-size: 13.5px; box-shadow: 0 4px 16px rgba(212, 69, 111, 0.35);
+  z-index: 300; display: none; max-width: 80vw; text-align: center;
+}
+
+/* ═══ 页脚 ═══ */
+.页脚 {
+  background: linear-gradient(135deg, #fff4f9, #fbd8e6); color: var(--深粉字);
+  border-top: 1px solid var(--边框);
+  padding: 16px 22px; text-align: center; font-size: 12.5px; margin-top: auto;
+}
+.页脚 .存储状态 { margin-top: 4px; font-size: 11.5px; opacity: 0.95; }
+.页脚 .好 { color: #5a8f6a; font-weight: 600; }
+.页脚 .差 { color: #a04a72; }
+
+/* ═══ 响应式 ═══ */
+@media (max-width: 900px) {
+  .侧边栏 { position: fixed; left: 0; top: var(--顶栏高); z-index: 80; }
+  .侧边栏.收起 { flex: 0 0 0; }
+  .搜索框 { width: 130px; }
+  .内容 { padding: 14px 12px 30px; }
+}
+@media (max-width: 600px) {
+  .品牌 p { display: none; }
+  .导航 a { padding: 5px 9px; font-size: 13px; }
+  .加速项 { flex-wrap: wrap; }
+  .加速项 .链 { white-space: normal; word-break: break-all; }
+}

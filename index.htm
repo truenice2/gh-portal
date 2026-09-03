@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GH 资源门户 — 加速 · 部署 · 项目 · 命令行 · 文档</title>
+  <meta name="description" content="GitHub 资源门户: 加速下载 / 部署托管 / 本地项目 / gh 命令行 / 技术文档, 纯静态 file:// 直开, 白+粉主题">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+  <link rel="stylesheet" href="网站主页.css">
+</head>
+<body>
+  <!-- ═══ 顶栏 (由 网站主页.js 渲染; 向下滚隐藏 / 向上滚显示) ═══ -->
+  <header class="顶栏" id="顶栏"></header>
+
+  <!-- 侧栏收起后的展开按钮 -->
+  <button class="展开钮" id="展开钮" title="展开侧边栏">▶</button>
+
+  <div class="布局">
+    <!-- ═══ 侧边栏 (可折叠, 由 网站主页.js 渲染) ═══ -->
+    <aside class="侧边栏" id="侧边栏"></aside>
+
+    <!-- ═══ 主内容区 ═══ -->
+    <main class="内容" id="主容器">
+      <div style="display:flex;align-items:center;justify-content:center;height:46vh;color:#b09aa6;font-size:17px">
+        ⏳ 正在加载门户…
+      </div>
+    </main>
+  </div>
+
+  <footer class="页脚">
+    <div>🌸 GH 资源门户 v1.1 · 纯原生 JS · ESM · file:// 直开 · 三层存储 (localStorage + IndexedDB + sql.js) · 文档格式 txt / html / svg (无 Markdown) · 2026-09-03</div>
+    <div class="存储状态" id="存储状态">⏳ 存储层检测中…</div>
+  </footer>
+
+  <!-- ═══ 详情弹窗 ═══ -->
+  <div class="遮罩" id="遮罩">
+    <div class="弹窗" id="弹窗"></div>
+  </div>
+
+  <!-- ═══ 用户面板 ═══ -->
+  <div class="面板遮罩" id="面板遮罩"></div>
+  <div class="用户面板" id="用户面板">
+    <div class="面板头"><span>👤 我的门户</span><button class="关闭钮" id="面板关闭">×</button></div>
+    <div class="面板体" id="面板体"></div>
+  </div>
+
+  <noscript>
+    <div style="padding:30px;text-align:center;color:#d4456f">本门户需要启用 JavaScript</div>
+  </noscript>
+
+  <!-- ═══ ① 数据层 (经典脚本: file:// 下 <script src> 不受 CORS 限制) ═══ -->
+  <script src="网站数据.js"></script>   <!-- 资源 / 加速源 / 命令 / 导航 -->
+  <script src="文章数据.js"></script>  <!-- 文档正文 (txt / html / svg) -->
+
+  <!-- ═══ ② 渲染与交互层 (经典脚本, 依赖 window.门户核心) ═══ -->
+  <script src="网页操作.js"></script>
+
+  <!-- ═══ ③ 核心层 + 启动 (ESM 优先, file:// 自动回退经典脚本) ═══ -->
+  <script type="module">
+    // ── CDN 依赖多源加载 (idb / sql.js), 失败不影响主流程 ──
+    // 注: 本站不使用 Markdown, 因此不需要 marked
+    const 源 = (window.网站数据 && window.网站数据.CDN源) || {};
+    const 依赖状态 = { idb: false, sqljs: false };
+
+    const 加载脚本 = (地址) => new Promise((完成, 失败) => {
+      const s = document.createElement('script');
+      s.src = 地址;
+      s.onload = () => 完成(地址);
+      s.onerror = () => 失败(new Error('加载失败: ' + 地址));
+      document.head.appendChild(s);
+    });
+
+    const 依次尝试 = async (列表) => {
+      for (const 地址 of (列表 || [])) {
+        try { await 加载脚本(地址); return 地址; } catch (e) { /* 换下一个源 */ }
+      }
+      return null;
+    };
+
+    // idb: IndexedDB Promise 封装 (file:// 下可能拿不到, 核心层会降级)
+    if (await 依次尝试(源.idb)) 依赖状态.idb = typeof window.idb !== 'undefined';
+    // sql.js: SQLite WASM (可选第三层存储)
+    if (await 依次尝试(源.sqljs)) 依赖状态.sqljs = typeof window.initSqlJs === 'function';
+
+    window.__门户依赖 = 依赖状态;
+    window.__门户SQL路径 = 源.sqljs目录 || [];
+
+    // ── 加载主应用 ──
+    try {
+      // ESM 模式: http(s) 下直接 import, 保持模块化
+      await import('./网站主页.js');
+    } catch (错误) {
+      // file:// 协议下 type=module 的跨文件 import 会被 CORS 拦截
+      // → 回退为经典 <script src>, 网站主页.js 未使用静态 import/export, 可直接执行
+      try { await 加载脚本('./网站主页.js'); }
+      catch (致命) { console.error('主应用加载失败:', 致命); }
+    }
+
+    // 兜底: 若脚本已加载但尚未启动 (DOM 事件时序), 显式调用一次
+    if (window.门户应用 && typeof window.门户应用.启动 === 'function') {
+      await window.门户应用.启动(依赖状态);
+    }
+  </script>
+</body>
+</html>
