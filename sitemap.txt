@@ -1,39 +1,38 @@
-# GH 资源门户 — 站点地图 (文本版)
-# 站点为单页 SPA (hash 路由), 主要入口如下
-# 正式域: https://ptgh.avasophia.indevs.in/
+GH 资源门户 — 站点地图 (文本版, 不含 Markdown)
+站点为单页 SPA (hash 路由), 主要入口如下
+正式域: https://ptgh.avasophia.indevs.in/
 
-## 顶层页面
-https://ptgh.avasophia.indevs.in/                                  首页 (精选资源 / 加速工具 / 最新文档)
-https://ptgh.avasophia.indevs.in/#/导航                             站外导航
-https://ptgh.avasophia.indevs.in/#/软件                             💾 软件板块 (资源聚合 + 加速工具)
-https://ptgh.avasophia.indevs.in/#/文学                             📖 文学板块 (文章卡片)
-https://ptgh.avasophia.indevs.in/#/理学                             🔬 理学板块 (技术文档 + 命令手册)
-https://ptgh.avasophia.indevs.in/#/用户/收藏                         我的收藏
-https://ptgh.avasophia.indevs.in/#/用户/历史                         历史记录
-https://ptgh.avasophia.indevs.in/#/用户/自建                         自建资源
-https://ptgh.avasophia.indevs.in/#/用户/设置                         设置与数据
+── 顶层页面 ─────────────────────────────
+https://ptgh.avasophia.indevs.in/                              首页 (精选资源 / 加速工具 / 最新文档)
+https://ptgh.avasophia.indevs.in/#/导航                         站外导航
+https://ptgh.avasophia.indevs.in/#/板块/软件                    软件板块 (资源聚合 + 加速工具)
+https://ptgh.avasophia.indevs.in/#/板块/文学                    文学板块 (文章卡片)
+https://ptgh.avasophia.indevs.in/#/板块/理学                    理学板块 (技术文档 + 命令速查文章)
+https://ptgh.avasophia.indevs.in/#/用户/收藏                     我的收藏
+https://ptgh.avasophia.indevs.in/#/用户/历史                     历史记录
+https://ptgh.avasophia.indevs.in/#/用户/自建                     自建资源
+https://ptgh.avasophia.indevs.in/#/用户/设置                     设置与数据
 
-## 标准文件
-https://ptgh.avasophia.indevs.in/robots.txt     爬虫规则 (放行 AI 生成引擎爬虫, GEO)
-https://ptgh.avasophia.indevs.in/llms.txt       LLM 站点地图
-https://ptgh.avasophia.indevs.in/sitemap.xml    XML 站点地图
-https://ptgh.avasophia.indevs.in/BingSiteAuth.xml   Bing 站点验证
+── 标准文件 ─────────────────────────────
+https://ptgh.avasophia.indevs.in/robots.txt       爬虫规则 (放行 AI 生成引擎爬虫, GEO)
+https://ptgh.avasophia.indevs.in/llms.txt         LLM 站点地图
+https://ptgh.avasophia.indevs.in/sitemap.xml      XML 站点地图
+https://ptgh.avasophia.indevs.in/BingSiteAuth.xml Bing 站点验证
 
-## 理学文档 (技术)
-gh CLI 安装与登录 (MSYS2 篇)     → #/文档/gh CLI 安装与登录 (MSYS2 篇)
-GitHub 加速下载完全指南          → #/文档/GitHub 加速下载完全指南
-静态博客 Hexo + GitHub Pages     → #/文档/静态博客 Hexo + Butterfly + GitHub Pages
-file:// 静态站的三种存储方案     → #/文档/file:// 静态站的三种存储方案
-frp 自建内网穿透要点             → #/文档/frp 自建内网穿透要点
-2026 静态托管平台选型对比        → #/文档/2026 静态托管平台选型对比
-gh / git 命令速查全表            → #/文档/gh / git 命令速查全表
-2026 GEO 生成引擎优化实践        → #/文档/2026 GEO 生成引擎优化实践
+── 理学文档 (8 篇, 文件 理学文章.js) ─────
+gh CLI 安装与登录 (MSYS2 篇)
+GitHub 加速下载完全指南
+静态博客 Hexo + Butterfly + GitHub Pages
+file:// 静态站的三种存储方案
+frp 0.71.0 自建内网穿透要点
+2026 静态托管平台选型对比
+gh / git 命令速查全表 (命令表数据已移除, 以文章形式提供)
+2026 GEO 生成引擎优化实践
 
-## 文学文档 (随笔/设计)
-白色 + 粉色主题设计说明 (HTML)   → #/文档/白色 + 粉色主题设计说明 (HTML)
-门户架构图 (SVG)                 → #/文档/门户架构图 (SVG)
-浅粉色的下午: 一次配色的取舍     → #/文档/浅粉色的下午: 一次配色的取舍
-我把整个工作区装进了一个 htm     → #/文档/我把整个工作区装进了一个 htm
+── 文学文档 (4 篇, 文件 文章数据.js) ─────
+白色 + 粉色主题设计说明 (HTML)
+门户架构图 (SVG)
+浅粉色的下午: 一次配色的取舍
+我把整个工作区装进了一个 htm
 
-## 更新
-2026-09-03 v1.4
+更新: 2026-09-03 v1.5 (纯文本, 无 Markdown 语法)

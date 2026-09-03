@@ -319,8 +319,13 @@ body.侧栏收起 .网格 { grid-template-columns: repeat(auto-fill, minmax(192p
   font-family: Consolas, "Courier New", "Microsoft YaHei", monospace;
   font-size: 13px; line-height: 1.75; color: #453e48;
   background: #fffafd; border: 1px solid var(--边框); border-radius: 8px;
-  padding: 14px 16px; margin: 0; overflow-x: auto; max-height: 70vh;
+  padding: 14px 16px; margin: 0; overflow-x: auto; max-height: 44vh;
 }
+
+/* 文章预览弹窗内正文限高 (避免"正文框太大"占满屏幕) */
+#弹窗 .txt正文 { max-height: 34vh; }
+#弹窗 .文档体 { max-height: 36vh; overflow-y: auto; }
+#弹窗 .图容器 { max-height: 34vh; overflow: auto; }
 
 /* ═══ svg 图形容器 ═══ */
 .图容器 { text-align: center; padding: 6px 0; }

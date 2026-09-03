@@ -126,6 +126,7 @@
     const C = 核();
     const 图标 = C.分类图标[项.分类] || '📄';
     const 收 = C.是否收藏(项.名称);
+    const 键 = (项.分类 || '') + '/' + 项.名称;
     return `
       <div class="卡片" data-动作="详情" data-分类="${转义(项.分类)}" data-名称="${转义(项.名称)}">
         <div class="卡头">${图标}</div>
@@ -133,9 +134,10 @@
           <div class="卡名">${转义(项.名称)}</div>
           <div class="卡分类">${转义(项.分类)}${项.年份 ? ' · ' + 转义(项.年份) : ''}</div>
           <div class="卡介">${转义(项.简介)}</div>
-          <div class="卡尾">
-            <span class="星">${'★'.repeat(Math.max(0, Math.min(5, 项.星级 || 0)))}</span>
-            <span>👍 ${C.点赞数(项.名称)}</span>
+          <div class="卡尾" data-动作无>
+            <span title="浏览">👁 ${C.浏览数(项.名称)}</span>
+            <span title="点赞">👍 ${C.点赞数(项.名称)}</span>
+            <span title="评论">💬 ${C.评论数(键)}</span>
             ${收 ? '<span class="收藏标">⭐</span>' : ''}
           </div>
         </div>
@@ -211,7 +213,6 @@
       { 数: C.全部资源.length, 名: '资源条目' },
       { 数: Object.keys(C.分类图标).length, 名: '分类' },
       { 数: C.加速源表.length, 名: '加速源' },
-      { 数: C.命令表.reduce((s, g) => s + g.命令.length, 0), 名: '命令' },
       { 数: C.文章表.length, 名: '文档' },
       { 数: C.仓库表.length, 名: '我的仓库' },
     ];
@@ -229,7 +230,7 @@
 
       ${加速区HTML()}
 
-      <div class="区标题">⭐ 精选资源 (5 星)</div>
+      <div class="区标题">🏆 精选资源 (按星级数据排序, UI 不显示星级)</div>
       ${网格HTML(推荐)}
 
       <div class="区标题" style="margin-top:18px">📚 最新文档 (卡片视图 · txt / html / svg)</div>
@@ -261,40 +262,23 @@
       ${网格HTML(C.全部资源.filter((r) => ['加速代理', 'CDN镜像', '下载工具'].includes(r.分类)))}`;
   }
 
-  // 命令手册 (可嵌入理学板块)
-  function 命令手册HTML() {
-    const C = 核();
-    const 词 = C.状态.搜索词.toLowerCase();
-    return C.命令表.map((组) => {
-        const 命令 = 组.命令.filter((c) => !词 || c.令.toLowerCase().includes(词) || c.说.includes(词));
-        if (!命令.length) return '';
-        return `
-          <div class="命令组">
-            <div class="命令组标题">${组.图标} ${转义(组.组)} (${命令.length})</div>
-            ${命令.map((c) => `
-              <div class="命令行">
-                <code>${转义(c.令)}</code>
-                <span class="说">${转义(c.说)}</span>
-                <button class="小钮" data-动作="复制" data-文本="${转义(c.令)}">复制</button>
-              </div>`).join('')}
-          </div>`;
-      }).join('') || '<div class="空态"><div class="图">⌨️</div><div>没有匹配的命令</div></div>';
-  }
-
+  // ── 命令速查入口页 (命令表数据已移除 v1.5, 命令以 txt 文章形式存于理学) ──
   function 渲染命令页() {
-    const C = 核();
     return `
       <div class="横幅">
-        <h2>⌨️ gh / git 命令速查 (理学)</h2>
-        <p>共 ${C.命令表.reduce((s, g) => s + g.命令.length, 0)} 条命令, 点击右侧按钮复制到剪贴板。</p>
+        <h2>⌨️ gh / git 命令速查</h2>
+        <p>命令速查已并入理学文档文章 <b>《gh / git 命令速查全表》</b>:
+           点卡片遮罩预览, 可用"复制全文"按钮一键复制全部 34 条命令。</p>
       </div>
-      ${命令手册HTML()}`;
+      ${板块文章卡片('理学')}`;
   }
 
   // ── 文章卡片视图 (点击弹预览遮罩, 再点"阅读全文"进详情页) ──
   function 文章卡片HTML(文) {
+    const C = 核();
     const 格式 = ((文 && 文.格式) || 'txt').toUpperCase();
     const 图标 = 文.格式 === 'svg' ? '🖼️' : (文.格式 === 'html' ? '📝' : '📄');
+    const 键 = (文.板块 || '理学') + '/' + 文.标题;
     return `
       <div class="卡片 文档卡" data-动作="文档预览" data-标题="${转义(文.标题)}">
         <div class="卡头">${图标}</div>
@@ -303,7 +287,9 @@
           <div class="卡分类">${转义(文.板块 || '理学')} <span class="徽章">${转义(格式)}</span></div>
           <div class="卡介">${转义(纯文本摘要(文.正文, 2))}</div>
           <div class="卡尾">
-            <span>${转义(文.作者 || '')}</span>
+            <span title="浏览">👁 ${C.浏览数(文.标题)}</span>
+            <span title="点赞">👍 ${C.点赞数(文.标题)}</span>
+            <span title="评论">💬 ${C.评论数(键)}</span>
             <span class="收藏标">${转义(文.日期 || '')}</span>
           </div>
         </div>
@@ -462,6 +448,7 @@
       return;
     }
     C.记录历史(项);
+    C.记录浏览(项.名称);
     C.状态.当前 = 项;
     const 键 = (项.分类 || '') + '/' + 项.名称;
     const 图 = C.分类图标[项.分类] || '📄';
@@ -660,7 +647,7 @@
         // 板块附加区: 软件含加速工具, 理学含命令手册, 文学含文章卡片
         let 附加 = '';
         if (板 && 板.键 === '软件') 附加 = 加速区HTML();
-        if (板 && 板.键 === '理学') 附加 = 板块文章卡片('理学') + 命令手册HTML();
+        if (板 && 板.键 === '理学') 附加 = 板块文章卡片('理学');
         if (板 && 板.键 === '文学') 附加 = 板块文章卡片('文学');
         内容 = `<div class="横幅"><h2>${板 ? 板.图标 + ' ' + 板.名 : '全部资源'}</h2><p>${转义(板 ? (板.分类.map((c) => C.分类说明[c] || c).join(' · ')) : '')}</p></div>
           ${附加}
@@ -828,6 +815,7 @@
           break;
         }
         case '文档预览':
+          C.记录浏览(元.dataset.标题);
           打开文档预览(元.dataset.标题);
           break;
         case '文档': {
@@ -916,13 +904,7 @@
 
     document.addEventListener('input', (事) => {
       const C = 核();
-      if (事.target.id === '搜索框') {
-        C.状态.搜索词 = 事.target.value.trim();
-        clearTimeout(window.__搜索定时器);
-        window.__搜索定时器 = setTimeout(() => {
-          C.跳转('搜索/' + encodeURIComponent(C.状态.搜索词));
-        }, 420);
-      }
+      if (事.target.id === '搜索框') C.状态.搜索词 = 事.target.value.trim();
     });
 
     document.addEventListener('change', (事) => {
@@ -960,6 +942,11 @@
       if (事.key === 'Escape') {
         关弹窗();
         用户面板(false);
+      }
+      // 搜索框按回车立即搜索
+      if (事.key === 'Enter' && 事.target && 事.target.id === '搜索框') {
+        const C = 核();
+        C.跳转('搜索/' + encodeURIComponent(C.状态.搜索词));
       }
     });
 
