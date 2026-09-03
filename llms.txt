@@ -1,0 +1,26 @@
+# GH 资源门户 (GH Portal)
+> GitHub 资源门户: GitHub 加速下载 / 部署托管 / 本地项目 / gh 命令行 / 技术文档。白+浅粉主题, file:// 直开纯静态站, 正式域 https://ptgh.avasophia.indevs.in/
+> 站点由单页 SPA 驱动 (hash 路由), 主要数据在网站数据.js / 文章数据.js 中; 文档正文支持 txt / html / svg 三种格式, 不使用 Markdown。
+
+## 板块与主要页面
+- [首页](https://ptgh.avasophia.indevs.in/): 精选资源 / GitHub 加速工具 / 最新文档 / 我的仓库
+- [软件](https://ptgh.avasophia.indevs.in/#/板块/软件): 本地项目 · 开源项目 · 部署平台 · 加速代理 · CDN 镜像 · 下载工具 · 开发环境 · 测试工具
+- [文学](https://ptgh.avasophia.indevs.in/#/板块/文学): 随笔与设计文章 (卡片视图, 点击遮罩预览)
+- [理学](https://ptgh.avasophia.indevs.in/#/板块/理学): 技术文档 · gh/git 命令速查全表
+- [导航](https://ptgh.avasophia.indevs.in/#/导航): GitHub 生态与镜像站点
+
+## 加速源 (GitHub 下载加速)
+- ghfast.top / v6.gh-proxy.org / hk.gh-proxy.org / cdn.gh-proxy.org / edgeone.gh-proxy.org / jsDelivr / gitclone.com
+
+## 文档主题
+- gh CLI 安装与登录 (MSYS2 篇)
+- GitHub 加速下载完全指南
+- 静态博客 Hexo + Butterfly + GitHub Pages
+- file:// 静态站的三种存储方案 (localStorage / IndexedDB / sql.js)
+- frp 0.71.0 自建内网穿透要点
+- 2026 静态托管平台选型对比
+- gh / git 命令速查全表
+
+## 联系与项目
+- GitHub: https://github.com/truenice2/gh-portal (仓库: 部署 gh-portal)
+- 技术栈: 纯原生 JavaScript (ESM 语法) · 三层存储 localStorage + IndexedDB(idb) + sql.js(WASM) · 白色+浅粉色主题

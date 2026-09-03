@@ -1,0 +1,27 @@
+# robots.txt — GH 资源门户 (ptgh.avasophia.indevs.in)
+# 允许所有爬虫, 并显式放行 AI 生成引擎爬虫 (GEO)
+
+User-agent: *
+Allow: /
+
+# AI / 生成引擎爬虫 (GEO: Generative Engine Optimization)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Bing 爬虫
+User-agent: bingbot
+Allow: /
+
+Sitemap: https://ptgh.avasophia.indevs.in/sitemap.xml
